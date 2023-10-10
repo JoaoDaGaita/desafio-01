@@ -3,7 +3,7 @@ import { TaskProps } from "../App"
 import { useTasksContext } from "../hooks/useTaskContext"
 import { ChangeEvent, useState } from "react"
 
-export function Task({ id, title, isCompleted }: TaskProps) {
+export function Task({ title, isCompleted }: TaskProps) {
   const { tasks, setTasks, setCompletedTasks } = useTasksContext()
   const [isChecked, setIsChecked] = useState(isCompleted)
 
