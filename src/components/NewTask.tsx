@@ -1,36 +1,36 @@
 import { FormEvent, useState } from "react"
 import logoPlus from "../assets/plus.svg"
-import { TaskProps } from "../App"
+
 import { useTasksContext } from "../hooks/useTaskContext"
 
 export function NewTask() {
   const { tasks, setTasks } = useTasksContext()
-  const [newTaskTitle, setNewTaskTitle] = useState<TaskProps>({
-    id: 0,
-    title: "",
-    isCompleted: false,
-  })
+  const [title, setTitle] = useState("")
 
   function handleNewTaskChange(e: FormEvent<HTMLInputElement>) {
     e.currentTarget.setCustomValidity("")
-    setNewTaskTitle({
-      id: Math.random(),
-      title: e.currentTarget.value,
-      isCompleted: false,
-    })
+    setTitle(e.currentTarget.value)
   }
 
   function handleCreateNewTask(e: FormEvent) {
     e.preventDefault()
-    if (newTaskTitle === undefined) {
-      throw new Error("The task title cannot be undefined.")
+    let titleLengthValidate = title.trim()
+
+    if (titleLengthValidate.length === 0) {
+      alert("Input cannot be empty!")
+      setTitle("")
+      return
     }
-    setTasks([...tasks, newTaskTitle])
-    setNewTaskTitle((prev) => ({
-      ...prev,
-      title: "",
-    }))
+
+    // if (newTask === undefined) {
+    //   throw new Error("The task title cannot be undefined.")
+    // }
+
+    setTasks([...tasks, { id: Math.random(), title, isCompleted: false }])
+    setTitle("")
   }
+
+  const isNewTaskEmpty = title.length === 0
 
   return (
     <form
@@ -42,11 +42,13 @@ export function NewTask() {
         border-gray-700 font-inter text-base not-italic font-normal
         leading-6 text-[#808080] focus:outline-none"
         onChange={handleNewTaskChange}
-        value={newTaskTitle?.title}
+        value={title}
       />
       <button
         type="submit"
-        className="flex p-4 justify-center items-center gap-2 bg-[#1E6F9F] rounded-lg text-[#F2F2F2]"
+        disabled={isNewTaskEmpty}
+        className="flex p-4 justify-center items-center gap-2 bg-[#1E6F9F] rounded-lg
+                  disabled:cursor-not-allowed text-[#F2F2F2]"
       >
         <p className="font-inter text-[#F2F2F2] text-sm not-italic font-bold leading-5">
           Criar
