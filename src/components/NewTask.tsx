@@ -22,10 +22,6 @@ export function NewTask() {
       return
     }
 
-    // if (newTask === undefined) {
-    //   throw new Error("The task title cannot be undefined.")
-    // }
-
     setTasks([...tasks, { id: Math.random(), title, isCompleted: false }])
     setTitle("")
   }
